@@ -1,0 +1,20 @@
+.card{
+    height: 100%;
+    width: 100%;
+}
+
+
+.card-text{
+    color:green;
+    font-weight: 800;
+}
+
+.card-title{
+    font-weight: 900;
+}
+
+
+
+.navbar{
+    background-color:#36EEE0;
+}

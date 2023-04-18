@@ -1,0 +1,4 @@
+django>=3.2,<3.3
+django-crispy-forms
+crispy-bootstrap4
+django-dotenv
