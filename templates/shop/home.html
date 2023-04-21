@@ -3,28 +3,41 @@
 
 {% block content %}
 
-<div class="container mt-5">
-    <div class='row'>
-        {% for product in product_qs %}
-        <div class='col-md-3'>
-            <div class="card">
-                <img src="{{ product.image }}" class='card-img-top'>
-                <div class="card-body">
-                    <div class="card-title">
-                        {{ product.title }}
-                    </div>
-                    <div class="card-text">$ {{ product.price }}</div>
+
+<div class='row mt-2'>
+    {% for product in product_qs %}
+    <div class='col-md-4 col-lg-3 col-sm-6 mt-2'>
+        <div class="card">
+            <img src="{{ product.image }}" class='card-img-top'>
+            <div class="card-body">
+                <div id='nm{{ product.id }}' class="card-title">
+                    {{ product.title }}
                 </div>
+                <div class="card-text">$ {{ product.price }}</div>
+                <div class="row">
+                    <div class="col-6">
+                        <a href='{{ product.get_absolute_url }}' class="btn btn-warning">View</a>
+                    </div>
+
+                    <div class="col-6">
+                        <button id='{{ product.id }}' class="btn btn-warning atc">Add to cart</button>
+                        <a href=""></a>
+                    </div>
+                </div>
+
+
             </div>
+
         </div>
-        {% if forloop.counter == 4 %}
-        <div class='mt-3'></div>
-        {% endif %}
-        {% endfor %}
     </div>
+    {% if forloop.counter == 4 %}
+    <div class='mt-3'></div>
+    {% endif %}
+    {% endfor %}
+</div>
 
 <div class="row">
-    <div class="mt-3 ol-md-4 offset-md-5">
+    <div class="mt-3 cl-md-4 offset-md-5">
         <ul class="pagination">
             {% if product_qs.has_previous %}
             <li class="page-item">
@@ -33,27 +46,75 @@
             {% endif %}
 
             <li class="page-item active">
-                <a class="page-link"  href="?page={{ product_qs.number }}">Current</a>
+                <a class="page-link" href="?page={{ product_qs.number }}">Current</a>
             </li>
 
-          
+
 
             {% if product_qs.has_next %}
             <li class="page-item">
-                <a class="page-link"  href="?page={{ product_qs.next_page_number }}">Next</a>
+                <a class="page-link" href="?page={{ product_qs.next_page_number }}">Next</a>
             </li>
             {% endif %}
-            
+
         </ul>
     </div>
 </div>
 
 
-</div>
-
-
-
-
 
 
 {% endblock content %}
+
+{% block jquery %}
+<script type="text/javascript">
+    if (localStorage.getItem('cart') == null) {
+        let cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+
+    $(document).on('click', '.atc', function () {
+        const item_id = this.id.toString();
+
+        if (cart[item_id] != undefined) {
+            quantity = cart[item_id][0] + 1;
+            cart[item_id][0] = quantity;
+        } else {
+            quantity = 1;
+            name = document.querySelector(`#nm${item_id}`).innerText;
+            cart[item_id] = [quantity,name];
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        document.querySelector('#cart').innerText = `Cart(${Object.keys(cart).length})`;
+
+    });
+    window.addEventListener('load', function () {
+        localStorage.getItem('cart');
+        document.querySelector('#cart').innerText = `Cart(${Object.keys(cart).length})`;
+    });
+    displayCart(cart);
+
+    function displayCart(cart) {
+        let cartString = "";
+        let cartIndex = 1;
+        for (let item in cart) {
+            console.log(item)
+            cartString += cartIndex+')'
+            cartString += cart[item][1]+'-'+cart[item][0],
+            cartString += '<br>'
+            cartIndex += 1;
+        }
+
+        cartString += "<a href='/checkout' class='btn btn-danger' id='checkout'>Checkout</a>";
+        document.querySelector('#cart').setAttribute('data-bs-content', cartString);
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+    }
+
+
+
+</script>
+
+
+{% endblock jquery %}

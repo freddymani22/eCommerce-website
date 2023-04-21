@@ -1,4 +1,7 @@
+from django.urls import reverse
+
 from django.db import models
+
 
 # Create your models here.
 class Product(models.Model):
@@ -9,3 +12,10 @@ class Product(models.Model):
     description =models.TextField()
     image = models.CharField(max_length=300)
 
+
+    def __str__(self):
+        return self.title
+    
+
+    def get_absolute_url(self):
+        return reverse('shop:detail', kwargs={'id': self.id})
