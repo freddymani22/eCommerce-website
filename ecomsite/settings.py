@@ -134,4 +134,4 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 
-LOGIN_URL = 'accounts/login'
+LOGIN_URL = '/acc/login/'

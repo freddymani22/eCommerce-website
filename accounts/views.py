@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect
+from django.contrib import messages
+from django.urls import reverse
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm
 
@@ -24,8 +26,17 @@ def user_login(request):
             login(request, user)
             return redirect('shop:home')
     else:
-     form = CustomAuthenticationForm(request)
-    return render(request, 'accounts/login.html', context = {'form': form})
+    # Check if there is a message in the user's session
+        if messages.get_level(request) == messages.INFO and request.GET.get('next') == reverse('shop:checkout'):
+            # Delete the message from the session to prevent it from being displayed again
+            messages.success(request, '')
+            # Display the message to the user
+            messages.info(request, 'Login is required to checkout.')
+            storage = messages.get_messages(request)
+            storage.used = True
+
+        form = CustomAuthenticationForm(request)
+        return render(request, 'accounts/login.html', context = {'form': form})
 
 
 def user_logout(request):

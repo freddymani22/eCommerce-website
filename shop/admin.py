@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 
-from .models import Product
+from .models import Product,Checkout
 # Register your models here.
 
 class ProductsAdmin(admin.ModelAdmin):
@@ -11,3 +11,4 @@ class ProductsAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Product,ProductsAdmin)
+admin.site.register(Checkout)

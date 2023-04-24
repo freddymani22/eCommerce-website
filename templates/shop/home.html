@@ -6,21 +6,18 @@
 
 <div class='row mt-2'>
     {% for product in product_qs %}
-    <div class='col-md-4 col-lg-3 col-sm-6 mt-2'>
+    <div class='col-12 col-sm-6 col-lg-3 mt-2'>
         <div class="card">
             <img src="{{ product.image }}" class='card-img-top'>
             <div class="card-body">
-                <div id='nm{{ product.id }}' class="card-title">
+                <div id='nm{{ product.id }}' class="card-title text-center">
                     {{ product.title }}
                 </div>
-                <div class="card-text">$ {{ product.price }}</div>
+                <div class="card-text text-center" id="price{{ product.id }}">{{ product.price }}</div>
                 <div class="row">
-                    <div class="col-6">
-                        <a href='{{ product.get_absolute_url }}' class="btn btn-warning">View</a>
-                    </div>
-
-                    <div class="col-6">
-                        <button id='{{ product.id }}' class="btn btn-warning atc">Add to cart</button>
+                    <div class="col-12 text-center mt-2">
+                        <a href='{{ product.get_absolute_url }}' class="btn btn-outline-dark p-2">View</a>
+                        <button id='{{ product.id }}' class="btn btn-outline-dark atc p-2">Add to Cart</button>
                         <a href=""></a>
                     </div>
                 </div>
@@ -66,10 +63,11 @@
 
 {% endblock content %}
 
-{% block jquery %}
+{% block js %}
 <script type="text/javascript">
+    let cart;
     if (localStorage.getItem('cart') == null) {
-        let cart = {};
+        cart = {};
     } else {
         cart = JSON.parse(localStorage.getItem('cart'));
     }
@@ -80,10 +78,13 @@
         if (cart[item_id] != undefined) {
             quantity = cart[item_id][0] + 1;
             cart[item_id][0] = quantity;
+            cart[item_id][2] = cart[item_id][2] + parseFloat(document.querySelector("#price"+item_id).innerText);
+
         } else {
             quantity = 1;
             name = document.querySelector(`#nm${item_id}`).innerText;
-            cart[item_id] = [quantity,name];
+            price = parseFloat(document.querySelector("#price"+item_id).innerText);
+            cart[item_id] = [quantity, name, price];
         }
         localStorage.setItem('cart', JSON.stringify(cart));
         document.querySelector('#cart').innerText = `Cart(${Object.keys(cart).length})`;
@@ -93,28 +94,28 @@
         localStorage.getItem('cart');
         document.querySelector('#cart').innerText = `Cart(${Object.keys(cart).length})`;
     });
-    displayCart(cart);
+
 
     function displayCart(cart) {
         let cartString = "";
         let cartIndex = 1;
         for (let item in cart) {
-            console.log(item)
-            cartString += cartIndex+')'
-            cartString += cart[item][1]+'-'+cart[item][0],
+
+            cartString += cartIndex + ') '
+            cartString += cart[item][1] + '-' + cart[item][0]
             cartString += '<br>'
             cartIndex += 1;
         }
 
-        cartString += "<a href='/checkout' class='btn btn-danger' id='checkout'>Checkout</a>";
+        cartString += "<a href='checkout/' class='text-center btn btn-outline-danger p-1 mt-1' id='checkout'>Checkout</a>";
         document.querySelector('#cart').setAttribute('data-bs-content', cartString);
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
     }
 
-
+    displayCart(cart);
 
 </script>
 
 
-{% endblock jquery %}
+{% endblock js %}

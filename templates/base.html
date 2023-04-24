@@ -17,15 +17,23 @@
   <link rel="stylesheet" href="{% static 'style.css' %}">
   <title>Document</title>
 
+
+
   <!-- jquery CDN -->
   <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
     crossorigin="anonymous"></script>
+
+
+    
 
   <!-- bootstrap  popper and JS CDN -->
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
     integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
     crossorigin="anonymous"></script>
+   
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
     integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
     crossorigin="anonymous"></script>
@@ -38,7 +46,7 @@
       <div class="col-md-12">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
           <div class="container-fluid">
-            <a class="brand navbar-brand text-white" href="{% url 'shop:home' %}">E-COM</a>
+            <a class="brand navbar-brand text-white" href="{% url 'shop:home' %}">eCom</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
               data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
               aria-label="Toggle navigation">
@@ -66,12 +74,6 @@
                   </ul>
                 </li>
                 <li class="nav-item">
-                  <button id=cart type="button" data-bs-html = 'true' class="btn btn-warning" data-bs-container="body"
-                    data-bs-toggle="popover" data-bs-placement="bottom" data-bs-content="hello">
-                    Cart(0)
-                  </button>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link disabled">Disabled</a>
                 </li>
                 {% if user.is_authenticated %}
@@ -85,20 +87,37 @@
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
                 </li>
-             
-              
-              {% endif %}
-            </ul>
-              <form class="d-flex" role="search">
+
+
+                {% endif %}
+              </ul>
+
+              {% if is_home %}
+              <form class="d-flex me-2" role="search">
                 <input class="form-control me-2" type="search" name='item_name' placeholder="Search"
                   aria-label="Search">
                 <button class="btn btn-danger" type="submit">Search</button>
               </form>
+              <button  tabindex="0" id=cart type="button" data-bs-html='true' class="btn btn-warning mt-2 mt-lg-0" data-bs-container="body"
+                data-bs-toggle="popover" data-bs-placement="bottom"  data-bs-animation="false" data-bs-sanitize="false" data-bs-content="">
+                Cart(0)
+              </button>
             </div>
-     
+            {% elif is_detail %}
+            <form class="d-flex me-2" role="search">
+              <input class="form-control me-2" type="search" name='item_name' placeholder="Search"
+                aria-label="Search">
+              <button class="btn btn-danger" type="submit">Search</button>
+            </form>
+            <button  tabindex="0" id=cart type="button" data-bs-html='true' class="btn btn-warning mt-2 mt-lg-0" data-bs-container="body"
+              data-bs-toggle="popover" data-bs-placement="bottom"  data-bs-animation="false" data-bs-sanitize="false" data-bs-content="">
+              Cart(0)
+            </button>
+          </div>
 
 
-            
+{% endif %}
+
           </div>
 
         </nav>
@@ -108,7 +127,9 @@
     {% endblock content %}
   </div>
 </body>
-{% block jquery %}
-{% endblock jquery %}
+{% block js %}
+
+<script src = '{% static "js/base.js" %}'></script>
+{% endblock js %}
 
 </html>
