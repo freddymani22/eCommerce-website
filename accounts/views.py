@@ -19,15 +19,9 @@ def user_register(request):
 
 
 def user_login(request):
-    if request.method =="POST":
-        form = CustomAuthenticationForm(request, data = request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('shop:home')
-    else:
-    # Check if there is a message in the user's session
-        if messages.get_level(request) == messages.INFO and request.GET.get('next') == reverse('shop:checkout'):
+
+
+    if messages.get_level(request) == messages.INFO and request.GET.get('next') == reverse('shop:checkout'):
             # Delete the message from the session to prevent it from being displayed again
             messages.success(request, '')
             # Display the message to the user
@@ -35,8 +29,16 @@ def user_login(request):
             storage = messages.get_messages(request)
             storage.used = True
 
+
+    if request.method =="POST":
+        form = CustomAuthenticationForm(request, data = request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('shop:home')
+    else:
         form = CustomAuthenticationForm(request)
-        return render(request, 'accounts/login.html', context = {'form': form})
+    return render(request, 'accounts/login.html', context = {'form': form})
 
 
 def user_logout(request):
