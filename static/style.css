@@ -11,6 +11,10 @@
 
 .card-title{
     font-weight: 900;
+    height: 3em;
+    line-height: 1.5em;
+    overflow: hidden;
+    
 }
 
 
@@ -20,10 +24,8 @@
 }
 
 
-
-#img{
-   
-   max-width:100%; /* Set the image's width to 100% of the container */
-    height: auto; /* Set the image's height to 100% of the container */
-    object-fit: cover; 
+.shop-logo{
+    height: 2rem;
+    width: 2rem;
+    margin-right: 0.5em;
 }

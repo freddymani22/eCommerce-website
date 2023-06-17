@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 
-from .models import Product, Checkout
+from .models import Product, Checkout, CartItem
 
 # Create your views here.
 
@@ -38,7 +38,6 @@ def checkout(request):
 
     if request.method == 'POST': 
         items = request.POST.get('items')
-        first_name = request.POST.get('first-name')
         last_name = request.POST.get('last-name')
         address = request.POST.get('address')
         address_2 = request.POST.get('address2')
@@ -46,9 +45,11 @@ def checkout(request):
         state = request.POST.get('state')
         zip = request.POST.get('zip')
         total = request.POST.get('total')
-        Checkout.objects.create(items=items,customer= request.user,first_name = first_name,
+        Checkout.objects.create(items=items,customer= request.user,
                             last_name=last_name,address=address,address_2=address_2,
                             city=city,state=state,zip=zip,total=total)
         
    
     return render(request, 'shop/checkout.html')
+
+

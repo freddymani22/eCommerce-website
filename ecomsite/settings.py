@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'shop',
     'accounts',
     'crispy_forms',
-    'crispy_bootstrap4'
+    'crispy_bootstrap4',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -84,6 +85,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default':{
+#     'ENGINE':'django.db.backends.postgresql',
+#     'NAME':'postgres',
+#     'USER':'postgres',
+#     'PASSWORD':'postgres',
+#     'HOST':'db',
+#     'PORT':'5432'
+# }
+# }
 
 
 # Password validation
