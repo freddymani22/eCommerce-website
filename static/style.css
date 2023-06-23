@@ -1,3 +1,9 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 .card{
     height: 100%;
     width: 100%;
@@ -27,5 +33,13 @@
 .shop-logo{
     height: 2rem;
     width: 2rem;
-    margin-right: 0.5em;
+}
+
+
+.list-item:hover{
+
+}
+
+.all-items{
+    margin-top: 7rem;
 }

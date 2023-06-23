@@ -4,13 +4,20 @@
 {% block content %}
 
 
-<div class='row mt-2'>
+<div class='row all-items'>
+    {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-dismissible alert-success">
+      <strong>{{message}}</strong>
+    </div>
+ {% endfor %}
+{% endif %}
     {% for product in product_qs %}
-    <div class='col-12 col-sm-6 col-lg-3 mt-2'>
+    <div class='col-12 col-sm-6 col-lg-3 mt-2 list-item'>
         <a href="{{ product.get_absolute_url }}">
             <div class="card shadow-lg border rounded-5">
 
-                <img src="{{ product.image }}" class='card-img-top'>
+                <img src="{{ product.image }}" class='card-img-top rounded-5'>
                 <div class="card-body">
                     <div class="card-title text-center">
                         <span id='nm{{ product.id }}'>{{ product.title }}</span>
@@ -41,7 +48,7 @@
 </div>
 
 <div class="row d-flex justify-content-center align-items-center">
-    <div class="col-3 mt-3">
+    <div class="col-3 ms-0 mt-3">
         <ul class="pagination">
             {% if product_qs.has_previous %}
             <li class="page-item">

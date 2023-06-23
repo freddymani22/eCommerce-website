@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from shop.models import CartItem
+from shop.models import CartItem,Checkout
 
 
 class CartSerializer(serializers.ModelSerializer):
@@ -10,7 +10,7 @@ class CartSerializer(serializers.ModelSerializer):
     customer = serializers.CharField(read_only=True)
     class Meta:
         model = CartItem
-        fields= ['customer','title','quantity', 'price','total_price', 'product']
+        fields= ['id','customer','title','quantity', 'price','total_price', 'product']
 
 
     def get_title(self,obj):
@@ -21,3 +21,6 @@ class CartSerializer(serializers.ModelSerializer):
     
     def get_total_price(self,obj):
         return obj.quantity*obj.product.price
+    
+
+

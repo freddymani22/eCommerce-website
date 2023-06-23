@@ -1,19 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container">
+<div class="container all-items">
   <div class="row mt-3">
 
     <div class="col-md-12">
+      <h2 class="text-center">Your cart</h2>
+      <form class="p-2">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Promo code">
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-outline-success">Redeem</button>
+          </div>
+        </div>
+      </form>
+      <ul class="list-group" id='item-list'>
+        
+       
 
-      <ul class="list-group" id='1item-list'>
 
       </ul>
 
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-12 checkout">
       <div class="container">
         <div class="py-5 text-center">
 
@@ -24,29 +35,12 @@
 
         <div class="row">
           <div class="col-md-4 order-md-2 mb-4">
-            <h4 class="d-flex justify-content-between align-items-center mb-3">
-              <span class="text-muted">Your cart</span>
-              <span class="badge badge-secondary badge-pill">3</span>
-            </h4>
-            <ul class="list-group mb-3" id='item-list'>
-
-              <form class="card p-2">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Promo code">
-                  <div class="input-group-append">
-                    <button type="submit" class="btn btn-secondary">Redeem</button>
-                  </div>
-                </div>
-              </form>
-
-
-            </ul>
-
+            
 
 
 
           </div>
-          <div class="col-md-8 order-md-1">
+          <div class="col-12 order-md-1">
             <h4 class="mb-3">Shipping address</h4>
             <form class="needs-validation" method='POST'>{% csrf_token %}
               <input type="hidden" id="items" item name="items">
@@ -106,8 +100,8 @@
                 <input name="total" type="number" class="form-control" id="totalform" hidden value="">
               </div>
               <div class="row mt-3">
-                <div class="col-md-12  p-0 text-center"> <button class="btn btn-primary"
-                    type="submit">Proceed to Payment</button></div>
+                <div class="col-md-12  p-0 text-center"> <a href="{% url 'shop:summary' %}"><button class="btn btn-primary"
+                  type="submit" >Proceed to Summary</button></div></a>
               </div>
             </form>
           </div>
@@ -136,6 +130,7 @@
 
 
 {% block js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="{% static 'js/checkout.js' %}"></script>
 {% endblock js %}
 

@@ -1,4 +1,4 @@
-from rest_framework import generics, mixins,serializers
+from rest_framework import generics, mixins
 from rest_framework.response import Response
 
 from rest_framework.permissions import IsAuthenticated
@@ -14,6 +14,7 @@ class CartItemMixinView(
     generics.GenericAPIView
 ):
     serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
     lookup_field = 'pk'
 
     def get_queryset(self):
@@ -66,3 +67,17 @@ class CartItemMixinView(
         
         
 
+class DeleteCartItemApiView(generics.RetrieveDestroyAPIView):
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'pk'
+
+
+    def get_queryset(self):
+        return CartItem.objects.filter(customer=self.request.user)
+    
+
+
+
+
+    

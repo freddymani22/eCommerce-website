@@ -29,17 +29,25 @@ class Product(models.Model):
 
 class Checkout(models.Model):
     customer = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
-    items = models.CharField(max_length=1000)
     last_name = models.CharField(max_length=100,blank=True, null=True)
+    mobile = models.IntegerField()
     address = models.CharField(max_length=200, null=False, blank=False)
     address_2 = models.CharField(max_length=200)
     city = models.CharField(max_length=100, null=False,blank=False)
     state = models.CharField(max_length=100, null=False, blank=False)
     zip = models.IntegerField(null=False, blank=False)
     total = models.FloatField(default=1)
+    razor_pay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    razor_pay_payment_id = models.CharField(max_length=100, blank=True, null=True)
+    razor_pay_payment_signature = models.CharField(max_length=100, blank=True, null=True)
 
 
 class CartItem(models.Model):
     customer = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+
+
+    @property
+    def total_cost(self):
+        return self.quantity * self.product.discount
